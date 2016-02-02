@@ -1,0 +1,36 @@
+{
+  "name": "mapcont/ui-tests",
+  "license": "MIT",
+  "type": "project",
+  "description": "Regression UI tests for content-mapper",
+  "require": {
+    "php": ">=5.5",
+    "ext-curl": "*",
+    "incenteev/composer-parameter-handler": "^2.1"
+  },
+  "autoload":{
+    "psr-4":{
+      "tests\\":"tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8",
+    "facebook/webdriver": "~1.0"
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ]
+  },
+  "extra": {
+    "incenteev-parameters": {
+      "file": "config/parameters.yml"
+    }
+  }
+}
