@@ -72,7 +72,7 @@ class PresetActionsTest extends SeleniumBase
      */
     public function testImportOriginIntoPreset()
     {
-        $successAlert = WebDriverBy::xpath("//div[@role='alert']");
+        $tagsPath = WebDriverBy::xpath("//*[@id='tags-list']");
         $this->presetId = $this->mapcont->createPresetRequest();
         $this->mapcont->goToPresets($this->presetId);
 
@@ -80,9 +80,9 @@ class PresetActionsTest extends SeleniumBase
 
         $this->mapcont->setConfigurationForTags();
         $this->mapcont->setConfigurationForElements();
-        self::assertTrue($this->driver->findElement($successAlert)->isDisplayed(),
-            'Origin has not been imported into preset!'
-        );
+        $this->waitForAjaxRequestsFinished();
+        $tags = $this->driver->findElement($tagsPath);
+        self::assertNotEmpty($tags->getText(), 'Origin has not been imported into preset!');
     }
 
     /**

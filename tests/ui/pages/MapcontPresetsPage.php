@@ -70,7 +70,9 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->findOriginField = WebDriverBy::xpath("//th[@data-title-text='Название']/*//input[@name='type.name']");
 
         $this->addOriginWithTagsBtn = WebDriverBy::xpath(
-            "//td[contains(., 'qa_origin')]/..//button[@title='Добавить ориджины вместе c тегами']"
+            '//td/text()[normalize-space(.)= \''
+            . $this->getValue('origin') .
+            '\']/../..//button[@title=\'Добавить ориджины вместе c тегами\']'
         );
         $this->tagMetagenList = WebDriverBy::xpath(
             "//div[@ng-show=\"tab == 'tag'\"]/*//select[@ng-model=\"model.metagenPresetId\"]"
