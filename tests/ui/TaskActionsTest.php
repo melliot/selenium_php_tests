@@ -68,7 +68,7 @@ class TaskActionsTest extends SeleniumBase
     public function testCreateProject()
     {
         $taskIdPath = WebDriverBy::xpath(
-            '//td/a[contains(text(), ' . $this->testSlot . ')]/../../td[@data-title-text=\'ID\']'
+            '//td/a[contains(text(), \'' . $this->testSlot . '\')]/../../td[@data-title-text=\'ID\']'
         );
         $this->mapcont->addProject($this->testSlot);
         $this->waitForAjaxRequestsFinished();
