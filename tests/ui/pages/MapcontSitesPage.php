@@ -62,7 +62,7 @@ class MapcontSitesPage extends MapcontBasePage
         $this->startPostingBtn = WebDriverBy::xpath(
             '//td/a[contains(text(),\''
             . $this->getValue('test_slot_url') .
-            '\')]/../../td/../*//a[@title=\'Запустить постинг\']');
+            '\')]/../../td/../*//a[@ng-click=\'setPostingAllowed(task, true)\']');
     }
 
     /**
