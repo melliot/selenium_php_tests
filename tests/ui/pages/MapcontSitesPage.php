@@ -87,7 +87,7 @@ class MapcontSitesPage extends MapcontBasePage
     public function startPosting()
     {
         $this->driver->get($this->getValue('mapcont_url') . '#/sites');
-        sleep(30);
-        $this->waitForElementClickable($this->startPostingBtn)->click();
+//        $this->waitForElementClickable($this->startPostingBtn)->click();
+        $this->driver->executeScript('$(\'.btn.btn-xs.btn-success.ng-scope\').click()');
     }
 }
