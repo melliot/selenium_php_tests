@@ -80,16 +80,4 @@ class MapcontSitesPage extends MapcontBasePage
         $this->findElement($this->postingPreset)->click();
         $this->findElement($this->submitBtn)->submit();
     }
-
-    /**
-     * Starting posting for required domain.
-     */
-    public function startPosting()
-    {
-        $this->driver->get($this->getValue('mapcont_url') . '#/sites');
-        $this->driver->executeScript(
-            '$(\'a:contains(\\\' ' .
-            $this->getValue('test_slot_url') .
-            ' \\\')\').parents(\'tr\').find("a[title$=\'Запустить постинг\']").click();');
-    }
 }

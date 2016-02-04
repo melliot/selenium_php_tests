@@ -60,11 +60,12 @@ class PresetActionsTest extends SeleniumBase
 
         $this->waitForElementClickable($contentsPresetBtn)->click();
 
-        $this->mapcont->createPreset($this->presetName);
+        $name = $this->mapcont->getRandName();
+        $this->mapcont->createPreset($name);
         self::assertEquals('Пресет контента', $this->waitForElementVisible($h3Path)->getText(),
             'Preset has not been created!'
         );
-        $this->mapcont->deletePreset();
+        $this->mapcont->deletePreset($name);
     }
 
     /**

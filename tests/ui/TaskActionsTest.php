@@ -45,7 +45,8 @@ class TaskActionsTest extends SeleniumBase
         $this->mapcont = new MapcontSitesPage($this->driver);
         $this->mapcont->login();
         $this->testSlot = $this->getValue('test_slot_url');
-        $this->createPresetWithMenu();
+        $name = $this->getValue('posting_name') . uniqid();
+        $this->createPresetWithMenu($name);
     }
 
     /**
@@ -80,26 +81,11 @@ class TaskActionsTest extends SeleniumBase
             array_push($domains, $element->getText());
         }
         self::assertContains($this->testSlot, $domains, 'Task has not been created!');
-    }
 
-    /**
-     * Check start posting.
-     */
-    public function testStartPosting()
-    {
-        $stopPostingBtn = WebDriverBy::xpath(
-            '//td/a[contains(text(),' . $this->testSlot . ')]/../../td/../*//a[@title=\'Остановить постинг\']'
+        $startPostingBtn = WebDriverBy::xpath(
+            '//td/a[contains(text(),' . $this->testSlot . ')]/../../td/../*//a[@title=\'Запустить постинг\']'
         );
-        $taskData = array(
-            'page_extension' => $this->getValue('page_extension'),
-            'domain' => $this->mapcont->getDomainId(),
-            'robotsExclusionConfig' => '',
-            'preset_map' => $this->postingPresetId,
-        );
-        $this->taskId = $this->sendRequest('POST', $this->mapcont->url . 'tasks.json', $taskData);
-        $this->mapcont->startPosting();
-
-        self::assertTrue($this->driver->findElement($stopPostingBtn)->isDisplayed(),
+        self::assertTrue($this->driver->findElement($startPostingBtn)->isDisplayed(),
             'Task has not been started posting!'
         );
     }
@@ -107,11 +93,13 @@ class TaskActionsTest extends SeleniumBase
     /**
      * Create preset.
      *
+     * @param String $postingName
+     *
      * @return int
      *
      * @throws \Exception
      */
-    private function createPresetWithMenu()
+    private function createPresetWithMenu($postingName)
     {
         $this->presetId = $this->mapcont->createPresetWithOriginRequest($this->getValue('origin'));
         $originTags = $this->sendRequest(
@@ -134,13 +122,13 @@ class TaskActionsTest extends SeleniumBase
         $this->sendRequest('POST', $this->mapcont->url . 'api/1/menus.json', $menu);
 
         $data = [
-            'name' => $this->getValue('posting_name'),
+            'name' => $postingName,
             'preset' => $this->presetId,
         ];
         $this->postingPresetId = $this->sendRequest('POST', $this->mapcont->url . 'presets/maps.json', $data);
 
         $data = [
-            'name' => $this->getValue('posting_name'),
+            'name' => $postingName,
             'is_removed' => false,
             'max_tickets' => rand(1, 50),
             'tickets_per_day_limit' => null,

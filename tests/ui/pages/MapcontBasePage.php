@@ -92,7 +92,7 @@ class MapcontBasePage extends BaseClass
      */
     public function createPresetRequest()
     {
-        $data = ['name' => $this->getValue('preset_name')];
+        $data = ['name' => $this->getRandName()];
 
         return $this->sendRequest('POST', $this->url . 'presets.json', $data);
     }
@@ -161,5 +161,17 @@ class MapcontBasePage extends BaseClass
         $response = json_decode($response, true);
 
         return $response['items'][0]['id'];
+    }
+
+    /**
+     * Generate random name for preset.
+     *
+     * @return String
+     */
+    public function getRandName()
+    {
+        $name = $this->getValue('preset_name') . uniqid();
+
+        return $name;
     }
 }

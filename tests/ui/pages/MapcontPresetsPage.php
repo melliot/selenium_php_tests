@@ -61,7 +61,6 @@ class MapcontPresetsPage extends MapcontBasePage
     {
         parent::__construct($driver);
 
-        $presetName = $this->getValue('preset_name');
         $this->createPresetBtn = WebDriverBy::xpath("//button[contains(.,'Создать пресет')]");
         $this->presetNameField = WebDriverBy::xpath("//*/input[@ng-model='preset.name']");
         $this->submitCreatePresetBtn = WebDriverBy::xpath("//*/button[@ng-click='exec(btn)']");
@@ -137,13 +136,7 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->okBtn = WebDriverBy::xpath("//button[@ng-click='exec(btn)']");
         $this->cartoon = WebDriverBy::xpath("//span[contains(text(), 'мультфильмы')]");
         $this->horror = WebDriverBy::xpath("//span[contains(text(), 'ужасы')]");
-        $this->deleteBtn = WebDriverBy::xpath(
-            '//a[contains(text(),\'' . $presetName . '\')]/..//button[@title=\'Переместить в корзину\']'
-        );
         $this->trash = WebDriverBy::xpath("//button[@cb='showTrash']");
-        $this->deleteFromTrashBtn = WebDriverBy::xpath(
-            '//a[contains(text(), \'' . $presetName . '\')]/..//button[@title=\'Удалить из корзины\']'
-        );
         $this->confirmDeletePreset = WebDriverBy::xpath("//button[@ng-click='okBtnClick()']");
     }
 
@@ -254,14 +247,21 @@ class MapcontPresetsPage extends MapcontBasePage
 
     /**
      * Remove preset through ui.
+     * @param String $presetName
      */
-    public function deletePreset()
+    public function deletePreset($presetName)
     {
         $this->goToPresets();
-        $this->waitForElementClickable($this->deleteBtn)->click();
+        $deleteBtn = WebDriverBy::xpath(
+            '//a[contains(text(),\'' . $presetName . '\')]/..//button[@title=\'Переместить в корзину\']'
+        );
+        $deleteFromTrashBtn = WebDriverBy::xpath(
+            '//a[contains(text(), \'' . $presetName . '\')]/..//button[@title=\'Удалить из корзины\']'
+        );
+        $this->waitForElementClickable($deleteBtn)->click();
         $this->waitForElementClickable($this->confirmDeletePreset)->click();
         $this->findElement($this->trash)->click();
-        $this->waitForElementClickable($this->deleteFromTrashBtn)->click();
+        $this->waitForElementClickable($deleteFromTrashBtn)->click();
         $this->findElement($this->confirmDeletePreset)->click();
     }
 

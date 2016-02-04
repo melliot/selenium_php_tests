@@ -6,7 +6,8 @@
   "require": {
     "php": ">=5.5",
     "ext-curl": "*",
-    "incenteev/composer-parameter-handler": "^2.1"
+    "incenteev/composer-parameter-handler": "^2.1",
+    "brianium/paratest": "^0.13.2"
   },
   "autoload":{
     "psr-4":{
