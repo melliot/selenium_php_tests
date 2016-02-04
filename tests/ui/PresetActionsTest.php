@@ -22,11 +22,6 @@ class PresetActionsTest extends SeleniumBase
     private $presetId;
 
     /**
-     * @var string
-     */
-    private $presetName;
-
-    /**
      * {@inheritDoc}
      */
     public function setUp()
@@ -34,7 +29,6 @@ class PresetActionsTest extends SeleniumBase
         parent::setUp();
         $this->mapcont = new MapcontPresetsPage($this->driver);
         $this->mapcont->login();
-        $this->presetName = $this->getValue('preset_name');
     }
 
     /**

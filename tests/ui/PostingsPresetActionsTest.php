@@ -49,7 +49,7 @@ class PostingsPresetActionsTest extends SeleniumBase
     {
         $h3Path = WebDriverBy::xpath("//h3[@class='ng-binding']");
         $this->presetId = $this->mapcont->createPresetWithOriginRequest($this->getValue('origin'));
-        $this->mapcont->createPostingsPreset($this->getValue('posting_name') . uniqid());
+        $this->mapcont->createPostingsPreset($this->mapcont->getRandName());
 
         self::assertEquals('Пресет постинга', $this->waitForElementVisible($h3Path)->getText(),
             'Posting\'s preset has not been created!'
@@ -64,7 +64,7 @@ class PostingsPresetActionsTest extends SeleniumBase
         $alertPath = WebDriverBy::xpath("//div[@role='alert']");
         $this->presetId = $this->mapcont->createPresetWithOriginRequest($this->getValue('origin'));
         $data = [
-            'name' => $this->getValue('posting_name'),
+            'name' => $this->mapcont->getRandName(),
             'preset' => $this->presetId,
         ];
         $postingPresetId = $this->sendRequest('POST', $this->mapcont->url . 'presets/maps.json', $data);

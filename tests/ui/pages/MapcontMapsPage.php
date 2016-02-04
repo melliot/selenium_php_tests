@@ -28,11 +28,6 @@ class MapcontMapsPage extends MapcontBasePage
     /**
      * @var WebDriverBy
      */
-    private $preset;
-
-    /**
-     * @var WebDriverBy
-     */
     private $okBtn;
 
     /**
@@ -65,7 +60,6 @@ class MapcontMapsPage extends MapcontBasePage
         $this->addPostingPresetBtn = WebDriverBy::xpath("//button[@ng-click='add()']");
         $this->nameField = WebDriverBy::xpath("//input[@ng-model='map.name']");
         $this->choosePreset = WebDriverBy::xpath("//*[@id='select2-chosen-2']");
-        $this->preset = WebDriverBy::xpath('//div[contains(text(),\'' . $this->getValue('preset_name') . '\')]');
         $this->okBtn = WebDriverBy::xpath("//button[@ng-click='exec(btn)']");
         $this->addBlockBtn = WebDriverBy::xpath("//button[@ng-click='map.addBlock()']");
         $this->stopAfter = WebDriverBy::xpath("//input[@ng-model='block.stop_after_posted']");
@@ -79,10 +73,11 @@ class MapcontMapsPage extends MapcontBasePage
     public function createPostingsPreset($postingName)
     {
         $this->driver->get($this->url . '#/maps');
+        $presetPath = WebDriverBy::xpath('//div[contains(text(),\'' . $this->presetName . '\')]');
         $this->waitForElementClickable($this->addPostingPresetBtn)->click();
         $this->findElement($this->nameField)->sendKeys($postingName);
         $this->findElement($this->choosePreset)->click();
-        $this->findElement($this->preset)->click();
+        $this->findElement($presetPath)->click();
         $this->findElement($this->okBtn)->click();
     }
 

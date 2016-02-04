@@ -37,6 +37,11 @@ class TaskActionsTest extends SeleniumBase
     private $testSlot;
 
     /**
+     * @var string
+     */
+    private $postingName;
+
+    /**
      * {@inheritDoc}
      */
     public function setUp()
@@ -45,8 +50,8 @@ class TaskActionsTest extends SeleniumBase
         $this->mapcont = new MapcontSitesPage($this->driver);
         $this->mapcont->login();
         $this->testSlot = $this->getValue('test_slot_url');
-        $name = $this->getValue('posting_name') . uniqid();
-        $this->createPresetWithMenu($name);
+        $this->postingName = $this->mapcont->getRandName();
+        $this->createPresetWithMenu($this->postingName);
     }
 
     /**
@@ -71,7 +76,7 @@ class TaskActionsTest extends SeleniumBase
         $taskIdPath = WebDriverBy::xpath(
             '//td/a[contains(text(), \'' . $this->testSlot . '\')]/../../td[@data-title-text=\'ID\']'
         );
-        $this->mapcont->addProject($this->testSlot);
+        $this->mapcont->addProject($this->testSlot, $this->postingName);
         $this->waitForAjaxRequestsFinished();
         $elements = $this->driver->findElements(WebDriverBy::xpath("//td[@sortable=\"'domain.name'\"]"));
 

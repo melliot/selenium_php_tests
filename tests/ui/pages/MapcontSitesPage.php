@@ -54,9 +54,6 @@ class MapcontSitesPage extends MapcontBasePage
         $this->addProjectBtn = WebDriverBy::xpath("//a[@href='#task/create']");
         $this->chooseDomainBtn = WebDriverBy::xpath("//span[contains(text(),'Выбор домена')]");
         $this->choosePresetBtn = WebDriverBy::xpath("//span[contains(text(),'Выбор пресета')]");
-        $this->postingPreset = WebDriverBy::xpath(
-            '//div[contains(text(),\'' . $this->getValue('posting_name') . '\')]'
-        );
         $this->submitBtn = WebDriverBy::xpath("//button[@type='submit']");
         $this->cmsTypeBtn = WebDriverBy::xpath("//select[@ng-model='siteDefaultQueryParams.cms_type']");
         $this->startPostingBtn = WebDriverBy::xpath(
@@ -68,8 +65,11 @@ class MapcontSitesPage extends MapcontBasePage
     /**
      * @param string $testSlot
      */
-    public function addProject($testSlot)
+    public function addProject($testSlot, $postingName)
     {
+        $this->postingPreset = WebDriverBy::xpath(
+            '//div[contains(text(),\'' . $postingName . '\')]'
+        );
         $this->driver->get($this->url . '#/sites');
         $this->waitForElementClickable($this->addProjectBtn)->click();
         $element = new WebDriverSelect($this->driver->findElement($this->cmsTypeBtn));

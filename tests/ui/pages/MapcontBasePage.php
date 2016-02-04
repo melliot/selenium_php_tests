@@ -34,6 +34,11 @@ class MapcontBasePage extends BaseClass
     /**
      * @var string
      */
+    public $presetName;
+
+    /**
+     * @var string
+     */
     public $url;
 
     /**
@@ -92,7 +97,8 @@ class MapcontBasePage extends BaseClass
      */
     public function createPresetRequest()
     {
-        $data = ['name' => $this->getRandName()];
+        $this->presetName = $this->getRandName();
+        $data = ['name' => $this->presetName];
 
         return $this->sendRequest('POST', $this->url . 'presets.json', $data);
     }
@@ -170,7 +176,7 @@ class MapcontBasePage extends BaseClass
      */
     public function getRandName()
     {
-        $name = $this->getValue('preset_name') . uniqid();
+        $name = 'SELENIUM' . uniqid();
 
         return $name;
     }
