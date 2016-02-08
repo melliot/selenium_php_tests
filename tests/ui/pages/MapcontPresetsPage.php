@@ -48,6 +48,8 @@ class MapcontPresetsPage extends MapcontBasePage
     private $copyTagsToMenuBtn;
     private $cartoon;
     private $horror;
+    private $trash;
+    private $confirmDeletePreset;
 
     /**
      * @var RemoteWebDriver

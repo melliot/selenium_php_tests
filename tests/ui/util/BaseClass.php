@@ -3,6 +3,7 @@
 namespace tests\ui\util;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\Remote\RemoteWebElement;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use PHPUnit_Framework_TestCase;
@@ -75,7 +76,7 @@ class BaseClass extends PHPUnit_Framework_TestCase
     /**
      * @param WebDriverBy $element
      *
-     * @return RemoteWebDriver
+     * @return RemoteWebElement
      */
     public function findElement($element)
     {
@@ -84,8 +85,6 @@ class BaseClass extends PHPUnit_Framework_TestCase
 
     /**
      * @return mixed
-     *
-     * @throws NoSuchElementException
      */
     public function waitForAjaxFinished()
     {
@@ -97,9 +96,7 @@ class BaseClass extends PHPUnit_Framework_TestCase
     /**
      * @param WebDriverBy $by
      *
-     * @return WebDriverElement
-     *
-     * @throws NoSuchElementException
+     * @return RemoteWebElement
      */
     protected function waitForPresenceElementLocated($by)
     {
@@ -112,9 +109,7 @@ class BaseClass extends PHPUnit_Framework_TestCase
     /**
      * @param WebDriverBy $by
      *
-     * @return \RemoteWebElement
-     *
-     * @throws \NoSuchElementException
+     * @return RemoteWebElement
      */
     protected function waitForElementClickable($by)
     {
@@ -127,9 +122,7 @@ class BaseClass extends PHPUnit_Framework_TestCase
     /**
      * @param WebDriverBy $by
      *
-     * @return \WebDriverElement
-     *
-     * @throws \NoSuchElementException
+     * @return RemoteWebElement
      */
     protected function waitForElementVisible($by)
     {

@@ -132,8 +132,6 @@ class SiteBuilderPage extends BaseClass
 
     /**
      * @return DomainRegDeployerPage
-     *
-     * @throws \NoSuchElementException
      */
     public function sendToDeploy()
     {
