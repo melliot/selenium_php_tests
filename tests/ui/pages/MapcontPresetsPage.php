@@ -171,7 +171,7 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->findElement($this->tagMetagenList)->click();
         $this->findElement($this->tagMetagen)->click();
 
-        $this->findElement($this->tagConstructorList)->click();
+        $this->waitForElementClickable($this->tagConstructorList)->click();
         $this->waitForElementClickable($this->tagConstructor)->click();
 
         $this->findElement($this->tagPostingTypeList)->click();
