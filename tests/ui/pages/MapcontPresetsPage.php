@@ -227,7 +227,7 @@ class MapcontPresetsPage extends MapcontBasePage
     public function addTagsToMenu()
     {
         $this->findElement($this->copyTagsToMenuBtn)->click();
-        $this->findElement($this->okBtn)->click();
+        $this->waitForElementClickable($this->okBtn)->click();
     }
 
     /**
