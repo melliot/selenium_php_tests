@@ -99,14 +99,8 @@ class PresetActionsTest extends SeleniumBase
             'Menu has not been created!'
         );
 
-        // Add one tag to menu.
-        $this->mapcont->addTagToMenu();
+        $this->mapcont->addTagsToMenu();
         $menuTags = $this->waitForElementVisible($menuElementsPath)->getText();
-        self::assertContains('аниме', $menuTags, 'Tag \'anime\' has not been added to menu!');
-
-        // Add two tags to menu.
-        $this->mapcont->addCoupleTagsToMenu();
-        $menuTags = $this->waitForElementVisible($menuElementsPath)->getText();
-        self::assertContains("аниме\nмультфильмы\nужасы", $menuTags, 'Tags has not been added to menu!');
+        self::assertContains("мультфильмы\nприключенческие\nсемейные", $menuTags, 'Tags has not been added to menu!');
     }
 }

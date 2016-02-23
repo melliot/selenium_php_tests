@@ -227,22 +227,8 @@ class MapcontPresetsPage extends MapcontBasePage
     /**
      * Add one tag to menu.
      */
-    public function addTagToMenu()
+    public function addTagsToMenu()
     {
-        $this->findElement($this->tagAnime)->click();
-        $this->findElement($this->copyTagsToMenuBtn)->click();
-        $this->findElement($this->okBtn)->click();
-    }
-
-    /**
-     * Add two tags to menu.
-     */
-    public function addCoupleTagsToMenu()
-    {
-        // Unselect anime tag.
-        $this->findElement($this->tagAnime)->click();
-        $this->findElement($this->cartoon)->click();
-        $this->findElement($this->horror)->click();
         $this->findElement($this->copyTagsToMenuBtn)->click();
         $this->findElement($this->okBtn)->click();
     }
