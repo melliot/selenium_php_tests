@@ -48,6 +48,8 @@ class MapcontPresetsPage extends MapcontBasePage
     private $copyTagsToMenuBtn;
     private $cartoon;
     private $horror;
+    private $trash;
+    private $confirmDeletePreset;
 
     /**
      * @var RemoteWebDriver
@@ -131,11 +133,8 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->saveBtn = WebDriverBy::xpath("//button[.='Сохранить']");
         $this->createMenuBtn = WebDriverBy::xpath("//button[@ng-click='createMenu()']");
         $this->menuNameField = WebDriverBy::xpath("//*[@id='menuName']");
-        $this->tagAnime = WebDriverBy::xpath("//span[contains(text(), 'аниме')]");
         $this->copyTagsToMenuBtn = WebDriverBy::xpath("//div[@data-ng-click='multiCopy()']");
         $this->okBtn = WebDriverBy::xpath("//button[@ng-click='exec(btn)']");
-        $this->cartoon = WebDriverBy::xpath("//span[contains(text(), 'мультфильмы')]");
-        $this->horror = WebDriverBy::xpath("//span[contains(text(), 'ужасы')]");
         $this->trash = WebDriverBy::xpath("//button[@cb='showTrash']");
         $this->confirmDeletePreset = WebDriverBy::xpath("//button[@ng-click='okBtnClick()']");
     }
@@ -225,22 +224,8 @@ class MapcontPresetsPage extends MapcontBasePage
     /**
      * Add one tag to menu.
      */
-    public function addTagToMenu()
+    public function addTagsToMenu()
     {
-        $this->findElement($this->tagAnime)->click();
-        $this->findElement($this->copyTagsToMenuBtn)->click();
-        $this->findElement($this->okBtn)->click();
-    }
-
-    /**
-     * Add two tags to menu.
-     */
-    public function addCoupleTagsToMenu()
-    {
-        // Unselect anime tag.
-        $this->findElement($this->tagAnime)->click();
-        $this->findElement($this->cartoon)->click();
-        $this->findElement($this->horror)->click();
         $this->findElement($this->copyTagsToMenuBtn)->click();
         $this->findElement($this->okBtn)->click();
     }
