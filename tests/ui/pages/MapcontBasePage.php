@@ -111,7 +111,7 @@ class MapcontBasePage extends BaseClass
     public function createPresetRequest()
     {
         $this->presetName = $this->getRandName();
-        $data = ['name' => $this->presetName];
+        $data = ['ws_topics' => [560], 'name' => $this->presetName];
 
         return $this->sendRequest('POST', $this->url . 'presets.json', $data);
     }
@@ -197,15 +197,18 @@ class MapcontBasePage extends BaseClass
     /**
      * Create preset via API.
      *
-     * @param String $postingName
+     * @param string $postingName
+     *
+     * @param string $originName
      *
      * @return int
      *
      * @throws \Exception
      */
-    public function createPresetWithMenu($postingName)
+    public function createPresetWithMenu($postingName, $originName = null)
     {
-        $this->presetId = $this->createPresetWithOriginRequest($this->getValue('origin'));
+        $originName = $originName == null ? $this->getValue('origin') : $originName;
+        $this->presetId = $this->createPresetWithOriginRequest($originName);
         $originTags = $this->sendRequest(
             'GET', $this->url . 'api/1/menus/presets/' . $this->presetId . '/tags.json'
         );
@@ -248,7 +251,7 @@ class MapcontBasePage extends BaseClass
         ];
         $this->sendRequest('PATCH', $this->url . 'presets/maps/' . $postingPresetId . '.json', $data);
     }
-    
+
     /**
      * @param int $presetId
      */
