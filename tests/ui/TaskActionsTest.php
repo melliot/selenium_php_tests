@@ -19,17 +19,7 @@ class TaskActionsTest extends SeleniumBase
     /**
      * @var int
      */
-    private $presetId;
-
-    /**
-     * @var int
-     */
     private $taskId;
-
-    /**
-     * @var int
-     */
-    private $postingPresetId;
 
     /**
      * @var string
@@ -51,7 +41,7 @@ class TaskActionsTest extends SeleniumBase
         $this->mapcont->login();
         $this->testSlot = $this->getValue('test_slot_url');
         $this->postingName = $this->mapcont->getRandName();
-        $this->createPresetWithMenu($this->postingName);
+        $this->mapcont->createPresetWithMenu($this->postingName);
     }
 
     /**
@@ -62,8 +52,8 @@ class TaskActionsTest extends SeleniumBase
         if ($this->taskId) {
             $this->mapcont->sendRequest('DELETE', $this->mapcont->url . 'tasks/' . $this->taskId . '.json');
         }
-        if ($this->presetId) {
-            $this->mapcont->deletePresetRequest($this->presetId);
+        if ($this->mapcont->getPresetId()) {
+            $this->mapcont->deletePresetRequest($this->mapcont->getPresetId());
         }
         parent::tearDown();
     }
@@ -93,60 +83,5 @@ class TaskActionsTest extends SeleniumBase
         self::assertTrue($this->driver->findElement($startPostingBtn)->isDisplayed(),
             'Task has not been started posting!'
         );
-    }
-
-    /**
-     * Create preset.
-     *
-     * @param String $postingName
-     *
-     * @return int
-     *
-     * @throws \Exception
-     */
-    private function createPresetWithMenu($postingName)
-    {
-        $this->presetId = $this->mapcont->createPresetWithOriginRequest($this->getValue('origin'));
-        $originTags = $this->sendRequest(
-            'GET', $this->mapcont->url . 'api/1/menus/presets/' . $this->presetId . '/tags.json'
-        );
-        $originTags = json_decode($originTags, true);
-
-        $tagNames = ['ужасы'];
-        $tagIds = [];
-
-        foreach ($tagNames as $name) {
-            foreach ($originTags['tags'] as $tag) {
-                if ($tag['names'][0]['name'] == $name) {
-                    array_push($tagIds, $tag['id']);
-                }
-            }
-        }
-        $menu = ['preset' => $this->presetId, 'region' => 1, 'name' => $this->getValue('menu_name')];
-
-        $this->sendRequest('POST', $this->mapcont->url . 'api/1/menus.json', $menu);
-
-        $data = [
-            'name' => $postingName,
-            'preset' => $this->presetId,
-        ];
-        $this->postingPresetId = $this->sendRequest('POST', $this->mapcont->url . 'presets/maps.json', $data);
-
-        $data = [
-            'name' => $postingName,
-            'is_removed' => false,
-            'max_tickets' => rand(1, 50),
-            'tickets_per_day_limit' => null,
-            'preset' => $this->presetId,
-            'is_manual' => 1,
-            'blocks' => [[
-                'from_posts_day' => 1,
-                'to_posts_day' => 1,
-                'post_days' => 1,
-                'stop_after_posted' => 1000,
-                'init_posts' => 1000,
-            ]]
-        ];
-        $this->sendRequest('PATCH', $this->mapcont->url . 'presets/maps/' . $this->postingPresetId . '.json', $data);
     }
 }
