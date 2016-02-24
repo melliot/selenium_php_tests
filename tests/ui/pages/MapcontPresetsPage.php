@@ -252,12 +252,4 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->waitForElementClickable($deleteFromTrashBtn)->click();
         $this->findElement($this->confirmDeletePreset)->click();
     }
-
-    /**
-     * @param int $presetId
-     */
-    public function goToPresets($presetId = null)
-    {
-        $this->driver->get($this->url . '#/presets/' . $presetId);
-    }
 }
