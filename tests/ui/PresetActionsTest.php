@@ -49,11 +49,7 @@ class PresetActionsTest extends SeleniumBase
      */
     public function testCreateAndDeletePreset()
     {
-        $contentsPresetBtn = WebDriverBy::xpath("//a[@href='#presets']");
         $h3Path = WebDriverBy::xpath('//h3[@class="ng-binding"]');
-
-        $this->waitForElementClickable($contentsPresetBtn)->click();
-
         $name = $this->mapcont->getRandName();
         $this->mapcont->createPreset($name);
         self::assertEquals('Пресет контента', $this->waitForElementVisible($h3Path)->getText(),

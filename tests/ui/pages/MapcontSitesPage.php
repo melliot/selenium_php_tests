@@ -80,4 +80,16 @@ class MapcontSitesPage extends MapcontBasePage
         $this->findElement($this->postingPreset)->click();
         $this->findElement($this->submitBtn)->submit();
     }
+
+    /**
+     * Click on btn start posting.
+     */
+    public function startPosting()
+    {
+        $btn = WebDriverBy::xpath(
+            '//td/a[contains(text(),' . $this->getValue('test_slot_url')
+            . ')]/../../td/../*//a[@title=\'Запустить постинг\']'
+        );
+        $this->waitForElementClickable($btn)->click();
+    }
 }

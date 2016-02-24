@@ -70,11 +70,6 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->addOriginBtnToPresetBtn = WebDriverBy::xpath("//*//button[@title='Добавить теги и элементы']");
         $this->findOriginField = WebDriverBy::xpath("//th[@data-title-text='Название']/*//input[@name='type.name']");
 
-        $this->addOriginWithTagsBtn = WebDriverBy::xpath(
-            '//td/text()[normalize-space(.)= \''
-            . $this->getValue('origin') .
-            '\']/../..//button[@title=\'Добавить ориджины вместе c тегами\']'
-        );
         $this->tagMetagenList = WebDriverBy::xpath(
             "//div[@ng-show=\"tab == 'tag'\"]/*//select[@ng-model=\"model.metagenPresetId\"]"
         );
@@ -149,6 +144,8 @@ class MapcontPresetsPage extends MapcontBasePage
      */
     public function createPreset($name)
     {
+        $contentsPresetBtn = WebDriverBy::xpath("//a[@href='#presets']");
+        $this->waitForElementClickable($contentsPresetBtn)->click();
         $this->findElement($this->createPresetBtn)->click();
         $this->findElement($this->presetNameField)->sendKeys($name);
         $this->findElement($this->submitCreatePresetBtn)->click();
@@ -161,6 +158,11 @@ class MapcontPresetsPage extends MapcontBasePage
      */
     public function importOrigin($originName)
     {
+        $this->addOriginWithTagsBtn = WebDriverBy::xpath(
+            '//td/text()[normalize-space(.)= \''
+            . $originName .
+            '\']/../..//button[@title=\'Добавить ориджины вместе c тегами\']'
+        );
         $this->waitForElementClickable($this->addOriginBtnToPresetBtn)->click();
         $this->findElement($this->findOriginField)->sendKeys($originName);
         $this->findElement($this->addOriginWithTagsBtn)->click();
@@ -230,7 +232,7 @@ class MapcontPresetsPage extends MapcontBasePage
     public function addTagsToMenu()
     {
         $this->findElement($this->copyTagsToMenuBtn)->click();
-        $this->findElement($this->okBtn)->click();
+        $this->waitForElementClickable($this->okBtn)->click();
     }
 
     /**
