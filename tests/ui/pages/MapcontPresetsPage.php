@@ -128,11 +128,8 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->saveBtn = WebDriverBy::xpath("//button[.='Сохранить']");
         $this->createMenuBtn = WebDriverBy::xpath("//button[@ng-click='createMenu()']");
         $this->menuNameField = WebDriverBy::xpath("//*[@id='menuName']");
-        $this->tagAnime = WebDriverBy::xpath("//span[contains(text(), 'аниме')]");
         $this->copyTagsToMenuBtn = WebDriverBy::xpath("//div[@data-ng-click='multiCopy()']");
         $this->okBtn = WebDriverBy::xpath("//button[@ng-click='exec(btn)']");
-        $this->cartoon = WebDriverBy::xpath("//span[contains(text(), 'мультфильмы')]");
-        $this->horror = WebDriverBy::xpath("//span[contains(text(), 'ужасы')]");
         $this->trash = WebDriverBy::xpath("//button[@cb='showTrash']");
         $this->confirmDeletePreset = WebDriverBy::xpath("//button[@ng-click='okBtnClick()']");
     }
@@ -176,7 +173,7 @@ class MapcontPresetsPage extends MapcontBasePage
         $this->findElement($this->tagMetagenList)->click();
         $this->findElement($this->tagMetagen)->click();
 
-        $this->findElement($this->tagConstructorList)->click();
+        $this->waitForElementClickable($this->tagConstructorList)->click();
         $this->waitForElementClickable($this->tagConstructor)->click();
 
         $this->findElement($this->tagPostingTypeList)->click();
