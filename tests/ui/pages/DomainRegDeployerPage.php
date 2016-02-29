@@ -59,7 +59,7 @@ class DomainRegDeployerPage extends BaseClass
         $this->searchField = WebDriverBy::name('domain_id');
         $this->slotBtn = WebDriverBy::xpath('//*/li[@class=\'active\']/a[contains(.,' . $this->testSlot . ')]');
         $this->editBtn = WebDriverBy::xpath(
-            '//*/a[@href=\'http://' . $this->testSlot . '\']/../..//a[@title=\'Редактировать\']'
+            "//*/a[@href='http://$this->testSlot']/../..//a[@title='Редактировать']"
         );
         $this->chooseBtn = WebDriverBy::xpath("//*[@role='button'][contains(text(), 'Выбрать')]");
         $this->treeSubjectsField = WebDriverBy::xpath(".//*[@id='jstree-search']");
