@@ -46,6 +46,16 @@ class MapcontSitesPage extends MapcontBasePage
     private $startPostingBtn;
 
     /**
+     * @var WebDriverBy
+     */
+    private $deleteProjectBtn;
+
+    /**
+     * @var WebDriverBy
+     */
+    private $okBtn;
+
+    /**
      * {@inheritDoc}
      */
     public function __construct($driver)
@@ -60,17 +70,24 @@ class MapcontSitesPage extends MapcontBasePage
             '//td/a[contains(text(),\''
             . $this->getValue('test_slot_url') .
             '\')]/../../td/../*//a[@ng-click=\'setPostingAllowed(task, true)\']');
+        $this->deleteProjectBtn =
+            WebDriverBy::xpath(
+                '//td/a[contains(text(),\'' .
+                $this->getValue('test_slot_url') .
+                '\')]/../../td/../*//a[@title=\'Удалить проект\']'
+        );
+        $this->okBtn = WebDriverBy::xpath('//button[@ng-click="okBtnClick()"]');
     }
 
     /**
      * @param string $testSlot
+     * @param string $postingName
      */
     public function addProject($testSlot, $postingName)
     {
         $this->postingPreset = WebDriverBy::xpath(
             '//div[contains(text(),\'' . $postingName . '\')]'
         );
-        $this->driver->get($this->url . '#/sites');
         $this->waitForElementClickable($this->addProjectBtn)->click();
         $element = new WebDriverSelect($this->driver->findElement($this->cmsTypeBtn));
         $element->selectByVisibleText($this->getValue('cms_type'));
@@ -79,5 +96,31 @@ class MapcontSitesPage extends MapcontBasePage
         $this->findElement($this->choosePresetBtn)->click();
         $this->findElement($this->postingPreset)->click();
         $this->findElement($this->submitBtn)->submit();
+    }
+
+    /**
+     * Click on btn start posting.
+     */
+    public function startPosting()
+    {
+        $btn = WebDriverBy::xpath(
+            '//td/a[contains(text(),' . $this->getValue('test_slot_url')
+            . ')]/../../td/../*//a[@title=\'Запустить постинг\']'
+        );
+        $this->waitForElementClickable($btn)->click();
+    }
+
+    /**
+     * Delete project.
+     */
+    public function deleteProject()
+    {
+        $this->driver->get($this->url . '#/sites');
+        if ($this->isElementPresent($this->deleteProjectBtn)) {
+            $this->waitForElementClickable($this->deleteProjectBtn)->click();
+            $this->waitForElementClickable($this->okBtn)->click();
+        } else {
+            return;
+        }
     }
 }

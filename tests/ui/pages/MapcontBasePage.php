@@ -42,6 +42,19 @@ class MapcontBasePage extends BaseClass
     public $url;
 
     /**
+     * @var int
+     */
+    private $presetId;
+
+    /**
+     * @return mixed
+     */
+    public function getPresetId()
+    {
+        return $this->presetId;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function __construct($driver)
@@ -98,7 +111,7 @@ class MapcontBasePage extends BaseClass
     public function createPresetRequest()
     {
         $this->presetName = $this->getRandName();
-        $data = ['name' => $this->presetName];
+        $data = ['ws_topics' => [560], 'name' => $this->presetName];
 
         return $this->sendRequest('POST', $this->url . 'presets.json', $data);
     }
@@ -179,5 +192,71 @@ class MapcontBasePage extends BaseClass
         $name = 'SELENIUM' . uniqid();
 
         return $name;
+    }
+
+    /**
+     * Create preset via API.
+     *
+     * @param string $postingName
+     *
+     * @param string $originName
+     *
+     * @return int
+     *
+     * @throws \Exception
+     */
+    public function createPresetWithMenu($postingName, $originName = null)
+    {
+        $originName = $originName == null ? $this->getValue('origin') : $originName;
+        $this->presetId = $this->createPresetWithOriginRequest($originName);
+        $originTags = $this->sendRequest(
+            'GET', $this->url . 'api/1/menus/presets/' . $this->presetId . '/tags.json'
+        );
+        $originTags = json_decode($originTags, true);
+
+        $tagNames = ['ужасы'];
+        $tagIds = [];
+
+        foreach ($tagNames as $name) {
+            foreach ($originTags['tags'] as $tag) {
+                if ($tag['names'][0]['name'] == $name) {
+                    array_push($tagIds, $tag['id']);
+                }
+            }
+        }
+        $menu = ['preset' => $this->presetId, 'region' => 1, 'name' => $this->getValue('menu_name')];
+
+        $this->sendRequest('POST', $this->url . 'api/1/menus.json', $menu);
+
+        $data = [
+            'name' => $postingName,
+            'preset' => $this->presetId,
+        ];
+        $postingPresetId = $this->sendRequest('POST', $this->url . 'presets/maps.json', $data);
+
+        $data = [
+            'name' => $postingName,
+            'is_removed' => false,
+            'max_tickets' => rand(1, 50),
+            'tickets_per_day_limit' => null,
+            'preset' => $this->presetId,
+            'is_manual' => 1,
+            'blocks' => [[
+                'from_posts_day' => 1,
+                'to_posts_day' => 1,
+                'post_days' => 1,
+                'stop_after_posted' => 1000,
+                'init_posts' => 1000,
+            ]]
+        ];
+        $this->sendRequest('PATCH', $this->url . 'presets/maps/' . $postingPresetId . '.json', $data);
+    }
+
+    /**
+     * @param int $presetId
+     */
+    public function goToPresets($presetId = null)
+    {
+        $this->driver->get($this->url . '#/presets/' . $presetId);
     }
 }

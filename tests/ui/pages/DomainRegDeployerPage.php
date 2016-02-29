@@ -49,7 +49,7 @@ class DomainRegDeployerPage extends BaseClass
      * @param WebDriver $driver
      * @param string    $archiveName
      */
-    public function __construct($driver, $archiveName)
+    public function __construct($driver, $archiveName = null)
     {
         parent::__construct($driver);
         $this->testSlot = $this->getValue('test_slot_url');
@@ -105,6 +105,17 @@ class DomainRegDeployerPage extends BaseClass
     {
         $this->typeLogin($login);
         $this->typePassword($password);
+        $this->findElement($this->submitBtn)->click();
+    }
+
+    /**
+     * Login into with login and password from parameters.yml.
+     */
+    public function loginInto()
+    {
+        $this->driver->get($this->getValue('domain_reg_deployer_url'));
+        $this->typeLogin($this->getValue('domain_reg_deployer_login'));
+        $this->typePassword($this->getValue('domain_reg_deployer_password'));
         $this->findElement($this->submitBtn)->click();
     }
 
