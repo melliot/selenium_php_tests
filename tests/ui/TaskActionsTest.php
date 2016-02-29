@@ -39,6 +39,7 @@ class TaskActionsTest extends SeleniumBase
         parent::setUp();
         $this->mapcont = new MapcontSitesPage($this->driver);
         $this->mapcont->login();
+        $this->mapcont->deleteProject();
         $this->testSlot = $this->getValue('test_slot_url');
         $this->postingName = $this->mapcont->getRandName();
         $this->mapcont->createPresetWithMenu($this->postingName);

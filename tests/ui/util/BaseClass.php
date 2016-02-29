@@ -191,4 +191,19 @@ class BaseClass extends PHPUnit_Framework_TestCase
 
         return $cookies[0]['value'];
     }
+
+    /**
+     * Check if element is present on page.
+     *
+     * @param WebDriverBy $element
+     * @return bool
+     */
+    public function isElementPresent(WebDriverBy $element)
+    {
+        $this->driver->manage()->timeouts()->implicitlyWait(3);
+        $isPresent = sizeof($this->driver->findElements($element)) != 0;
+        $this->driver->manage()->timeouts()->implicitlyWait(15);
+
+        return $isPresent;
+    }
 }
