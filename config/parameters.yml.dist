@@ -2,7 +2,7 @@ parameters:
     site_builder_url: http://sitebuilder-dev.ebti.co/
     site_builder_login: autotest
     site_builder_password: 6tES8Nh7q7mXOL6
-    domain_reg_deployer_url: http://domain-reg-deployer.lvlp.co
+    domain_reg_deployer_url: http://drd.wiseweb.co
     domain_reg_deployer_login: autotest
     domain_reg_deployer_password: 6DyMZ9
     test_slot_url: testul.co
